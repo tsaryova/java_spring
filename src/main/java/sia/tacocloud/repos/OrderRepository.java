@@ -3,4 +3,8 @@ package sia.tacocloud.repos;
 import org.springframework.data.repository.CrudRepository;
 import sia.tacocloud.models.TacoOrder;
 
-public interface OrderRepository extends CrudRepository<TacoOrder, Long> {}
+import java.util.List;
+
+public interface OrderRepository extends CrudRepository<TacoOrder, Long> {
+//    List<TacoOrder> findByDeliveryZip(String deliveryZip);
+}
