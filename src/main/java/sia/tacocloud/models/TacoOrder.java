@@ -8,20 +8,21 @@ import org.springframework.data.relational.core.mapping.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Data
 @Table
-public class TacoOrder {
+public class TacoOrder implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
     private Long id;
 
-    private Date placeAt;
+    private Date placedAt = new Date();
 
     @NotBlank(message = "Delivery is required")
     private String deliveryName;
