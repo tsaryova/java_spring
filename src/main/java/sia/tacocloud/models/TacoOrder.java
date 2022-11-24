@@ -22,7 +22,7 @@ public class TacoOrder implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private Date placeAt;
+    private Date placedAt;
 
     @NotBlank(message = "Delivery is required")
     private String deliveryName;
@@ -56,5 +56,10 @@ public class TacoOrder implements Serializable {
 
     public void addTaco(Taco taco) {
         this.tacos.add(taco);
+    }
+
+    @PrePersist
+    void placedAt() {
+        this.placedAt = new Date();
     }
 }
