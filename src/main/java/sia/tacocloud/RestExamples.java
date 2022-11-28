@@ -13,7 +13,6 @@ import sia.tacocloud.services.TacoCLoudClient;
 import java.util.List;
 
 @SpringBootConfiguration
-@ComponentScan
 @Slf4j
 public class RestExamples {
 
