@@ -23,11 +23,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/ingredients").hasRole("ADMIN")
-                .antMatchers(HttpMethod.DELETE, "/ingredients/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, "/api/ingredients").hasAuthority("SCOPE_writeIngredients")
+                .antMatchers(HttpMethod.DELETE, "/api/ingredients").hasAuthority("SCOPE_deleteIngredients")
                 .antMatchers("/design", "/orders")
                 .access("hasRole('USER')")
                 .antMatchers("/**").access("permitAll")
+                .and()
+                .oauth2ResourceServer(oauth -> oauth.jwt())
+
+                .httpBasic()
+                    .realmName("Taco Cloud")
 
                 .and()
                 .formLogin()
