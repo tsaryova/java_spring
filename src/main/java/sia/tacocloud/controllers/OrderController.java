@@ -41,33 +41,33 @@ public class OrderController {
 
     @GetMapping("/current")
     public String orderForm(@AuthenticationPrincipal User user,
-                            @ModelAttribute TacoOrder order) {
-        if (order.getDeliveryName() == null) {
-            order.setDeliveryName(user.getFullname());
+                            @ModelAttribute("tacoOrder") TacoOrder tacoOrder) {
+        if (tacoOrder.getDeliveryName() == null) {
+            tacoOrder.setDeliveryName(user.getFullname());
         }
-        if (order.getDeliveryStreet() == null) {
-            order.setDeliveryStreet(user.getStreet());
+        if (tacoOrder.getDeliveryStreet() == null) {
+            tacoOrder.setDeliveryStreet(user.getStreet());
         }
-        if (order.getDeliveryCity() == null) {
-            order.setDeliveryCity(user.getCity());
+        if (tacoOrder.getDeliveryCity() == null) {
+            tacoOrder.setDeliveryCity(user.getCity());
         }
-        if (order.getDeliveryState() == null) {
-            order.setDeliveryState(user.getState());
+        if (tacoOrder.getDeliveryState() == null) {
+            tacoOrder.setDeliveryState(user.getState());
         }
-        if (order.getDeliveryZip() == null) {
-            order.setDeliveryZip(user.getZip());
+        if (tacoOrder.getDeliveryZip() == null) {
+            tacoOrder.setDeliveryZip(user.getZip());
         }
         return "orderForm";
     }
 
     @PostMapping
-    public String processOrder(@Valid TacoOrder order, Errors errors,
+    public String processOrder(@Valid TacoOrder tacoOrder, Errors errors,
                                SessionStatus sessionStatus,
                                @AuthenticationPrincipal User user) {
         if (errors.hasErrors())
             return "orderForm";
-        order.setUser(user);
-        orderRepository.save(order);
+        tacoOrder.setUser(user);
+        orderRepository.save(tacoOrder);
 //        log.info("Order submitted: {}", order);
         sessionStatus.setComplete();
 
