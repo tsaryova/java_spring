@@ -42,21 +42,22 @@ public class OrderController {
     @GetMapping("/current")
     public String orderForm(@AuthenticationPrincipal User user,
                             @ModelAttribute TacoOrder order) {
-        if (order.getDeliveryName() == null) {
-            order.setDeliveryName(user.getFullname());
-        }
-        if (order.getDeliveryStreet() == null) {
-            order.setDeliveryStreet(user.getStreet());
-        }
-        if (order.getDeliveryCity() == null) {
-            order.setDeliveryCity(user.getCity());
-        }
-        if (order.getDeliveryState() == null) {
-            order.setDeliveryState(user.getState());
-        }
-        if (order.getDeliveryZip() == null) {
-            order.setDeliveryZip(user.getZip());
-        }
+        log.info("order-info: {}", order);
+//        if (order.getDeliveryName() == null) {
+//            order.setDeliveryName(user.getFullname());
+//        }
+//        if (order.getDeliveryStreet() == null) {
+//            order.setDeliveryStreet(user.getStreet());
+//        }
+//        if (order.getDeliveryCity() == null) {
+//            order.setDeliveryCity(user.getCity());
+//        }
+//        if (order.getDeliveryState() == null) {
+//            order.setDeliveryState(user.getState());
+//        }
+//        if (order.getDeliveryZip() == null) {
+//            order.setDeliveryZip(user.getZip());
+//        }
         return "orderForm";
     }
 
