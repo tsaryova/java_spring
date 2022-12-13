@@ -20,7 +20,7 @@ public class RabbitOrderMessagingService implements OrderMessagingService{
 
     @Override
     public void sendOrder(TacoOrder order) {
-        rabbitTemplate.convertAndSend(order, new MessagePostProcessor() {
+        rabbitTemplate.convertAndSend("tacocloud.order.queue", order, new MessagePostProcessor() {
             @Override
             public Message postProcessMessage(Message message) throws AmqpException {
                 MessageProperties props = message.getMessageProperties();

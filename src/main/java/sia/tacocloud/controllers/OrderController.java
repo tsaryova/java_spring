@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
+import sia.tacocloud.messaging.rabbit.OrderMessagingService;
 import sia.tacocloud.models.TacoOrder;
 import sia.tacocloud.models.User;
 import sia.tacocloud.repos.OrderRepository;
@@ -27,9 +28,12 @@ public class OrderController {
 
     private OrderProps orderProps;
 
-    public OrderController(OrderRepository orderRepository, OrderProps orderProps) {
+    private OrderMessagingService messageService;
+
+    public OrderController(OrderRepository orderRepository, OrderProps orderProps, OrderMessagingService messageService) {
         this.orderRepository = orderRepository;
         this.orderProps = orderProps;
+        this.messageService = messageService;
     }
 
     @GetMapping
@@ -64,11 +68,13 @@ public class OrderController {
     public String processOrder(@Valid TacoOrder tacoOrder, Errors errors,
                                SessionStatus sessionStatus,
                                @AuthenticationPrincipal User user) {
+//        log.info("Errors: {}", errors);
         if (errors.hasErrors())
             return "orderForm";
         tacoOrder.setUser(user);
         orderRepository.save(tacoOrder);
-//        log.info("Order submitted: {}", order);
+        messageService.sendOrder(tacoOrder);
+        log.info("Order submitted: {}", tacoOrder);
         sessionStatus.setComplete();
 
         return "redirect:/";
