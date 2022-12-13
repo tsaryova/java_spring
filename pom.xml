@@ -85,6 +85,11 @@
             <optional>true</optional>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+        </dependency>
+
 <!--        авторизация через сторонние сервисы-->
 <!--        <dependency>-->
 <!--            <groupId>org.springframework.boot</groupId>-->

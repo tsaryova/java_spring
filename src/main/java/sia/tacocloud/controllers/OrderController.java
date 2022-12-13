@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
+import sia.tacocloud.messaging.kafka.OrderMessagingService;
 import sia.tacocloud.models.TacoOrder;
 import sia.tacocloud.models.User;
 import sia.tacocloud.repos.OrderRepository;
@@ -27,9 +28,12 @@ public class OrderController {
 
     private OrderProps orderProps;
 
-    public OrderController(OrderRepository orderRepository, OrderProps orderProps) {
+    private OrderMessagingService messagingService;
+
+    public OrderController(OrderRepository orderRepository, OrderProps orderProps, OrderMessagingService messagingService) {
         this.orderRepository = orderRepository;
         this.orderProps = orderProps;
+        this.messagingService = messagingService;
     }
 
     @GetMapping
@@ -68,6 +72,7 @@ public class OrderController {
             return "orderForm";
         tacoOrder.setUser(user);
         orderRepository.save(tacoOrder);
+        messagingService.sendOrder(tacoOrder);
 //        log.info("Order submitted: {}", order);
         sessionStatus.setComplete();
 
